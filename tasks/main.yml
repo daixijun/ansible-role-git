@@ -1,0 +1,21 @@
+---
+- name: Install git
+  package:
+    name: git
+    state: present
+
+- name: Copy git-lfs to remote
+  copy:
+    src: git-lfs-{{ git_lfs_version }}.el{{ ansible_distribution_major_version }}.x86_64.rpm
+    dest: /usr/local/src/git-lfs-{{ git_lfs_version }}.el{{ ansible_distribution_major_version }}.x86_64.rpm
+
+- name: Install git-lfs
+  yum:
+    name: /usr/local/src/git-lfs-{{ git_lfs_version }}.el{{ ansible_distribution_major_version }}.x86_64.rpm
+    state: present
+
+- name: git lfs install
+  command: git lfs install
+  args:
+    warn: false
+  changed_when: false
